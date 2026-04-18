@@ -1,51 +1,64 @@
-name: 部署 VitePress 到 GitHub Pages (gh-pages 分支)
+name: Deploy VitePress to GitHub Pages
 
 on:
+  # 推送到 main 分支时自动部署（如果你的默认分支是 master，请改为 master）
   push:
     branches:
       - main
+
+  # 允许在 Actions 页面手动触发部署
   workflow_dispatch:
 
+# 设置 GitHub Pages 所需权限
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+# 并发控制：同一时间只允许一个部署任务运行
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
-  deploy-gh-pages:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout 代码
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0   # 完整历史记录（如果使用 lastUpdated 等功能建议保留）
 
-      - name: 安装 pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10
-
-      - name: 设置 Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
+          cache: 'npm'
 
-      - name: 安装依赖
-        run: pnpm install --frozen-lockfile
+      - name: Install dependencies
+        run: npm ci
 
-      - name: 构建文档
-        env:
-          NODE_OPTIONS: --max_old_space_size=8192
-        run: pnpm run build
+      - name: Build VitePress
+        run: npm run build
 
-      # 关键修复：确保 .nojekyll 文件存在（防止 GitHub Pages 忽略 _ 开头的 assets 文件夹）
-      - name: 创建 .nojekyll 文件
-        run: touch .vitepress/dist/.nojekyll
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v5
 
-      - name: 部署到 gh-pages 分支
-        uses: JamesIves/github-pages-deploy-action@v4
+      - name: Upload build artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          branch: gh-pages
-          folder: .vitepress/dist
-          clean: true                    # 每次清空旧文件，避免残留导致 404
-          single-commit: true            # 可选：保持 gh-pages 分支只有一个 commit，更干净
+          path: .vitepress/dist          # VitePress 2.x 默认构建输出目录（你的项目结构下）
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

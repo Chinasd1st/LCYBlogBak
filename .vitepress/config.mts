@@ -5,7 +5,7 @@ import { generateSidebar } from "vitepress-sidebar";
 export default defineConfig({
   title: "Lichenyu Blog Backup",
   description: "Backup files of Lichenyu's Blog",
-  base: "/lcyblogbak/",
+  base: "/LCYBlogBak/",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
