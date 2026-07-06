@@ -26,15 +26,9 @@ jobs:
         with:
           fetch-depth: 0
 
-      # 启用 Git 长路径支持（防止 Windows 上超长文件名导致的问题）
-      - name: Enable Git long paths
-        run: git config --global core.longpaths true
-
-      # 设置 pnpm
+      # 设置 pnpm (自动从 package.json 的 packageManager 字段读取版本)
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 10        # 推荐使用最新 pnpm 10.x
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -47,6 +41,8 @@ jobs:
 
       - name: Build VitePress
         run: pnpm run build
+        env:
+          CI: "true"
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
