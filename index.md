@@ -5,7 +5,7 @@ layout: home
 hero:
   name: "李晨煜"
   text: "QQ空间说说备份"
-  tagline: 2025.04 — 2026.04 近一年完整存档 · 共 130+ 条说说
+  tagline: 2025.04 — 2026.06 完整存档 · 共 150 条说说
   image:
     src: /avatar.jpeg   # 可替换成你的头像图片（放在 public/ 下）
     alt: 李晨煜头像
@@ -31,7 +31,7 @@ features:
     details: 支持移动端阅读、暗黑模式、搜索、侧边栏导航
     icon: ⚡
   - title: 近一年存档
-    details: 2025年4月至2026年4月全部说说 · 持续更新中
+    details: 2025年4月至2026年6月全部说说 · 持续更新中
     icon: 📅
 
 ---

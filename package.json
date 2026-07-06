@@ -1,11 +1,15 @@
 {
-  "devDependencies": {
-    "vitepress": "2.0.0-alpha.17",
-    "vitepress-sidebar": "^1.33.1"
-  },
+  "name": "lcyblogbak",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "pnpm@11.7.0",
   "scripts": {
     "dev": "vitepress dev",
     "build": "vitepress build",
     "preview": "vitepress preview"
+  },
+  "devDependencies": {
+    "vitepress": "2.0.0-alpha.17",
+    "vitepress-sidebar": "^1.36.1"
   }
 }
