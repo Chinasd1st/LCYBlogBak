@@ -27,6 +27,20 @@ export default defineConfig({
   description: "李晨煜 QQ空间说说完整备份 · 2025.04 — 2026.06",
   base: "/LCYBlogBak/",
   lastUpdated: true,
+  sitemap: {
+    hostname: "https://chinasd1st.github.io/LCYBlogBak",
+  },
+  head: [
+    ["meta", { name: "author", content: "李晨煜" }],
+    ["meta", { property: "og:title", content: "李晨煜 QQ空间说说备份" }],
+    ["meta", { property: "og:description", content: "150 条说说完整备份 · 2025.04 — 2026.06" }],
+    ["meta", { property: "og:type", content: "website" }],
+    ["meta", { property: "og:locale", content: "zh_CN" }],
+    ["meta", { property: "og:locale:alternate", content: "en_US" }],
+    ["meta", { property: "og:image", content: "/LCYBlogBak/og-image.png" }],
+    ["meta", { name: "twitter:card", content: "summary_large_image" }],
+    ["meta", { name: "twitter:image", content: "/LCYBlogBak/og-image.png" }],
+  ],
 
   locales: {
     root: {
