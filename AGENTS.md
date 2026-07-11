@@ -86,6 +86,30 @@ def get_safe_name(img_url: str) -> str:
 4. 从 QzoneExporter `downloaded/` 复制新图片（`unquote(filename)` → 匹配 `pic_id` → 复制为 `safe_name`）
 5. 验证所有图片引用存在
 
+## QzoneExporter 导出命令
+
+```powershell
+# 必须同时指定 --shuoshuo 和 --download，否则只下载不导出
+python exporter.py --shuoshuo --download
+```
+
+**重要：不加参数运行 `python exporter.py` 只执行下载，不导出说说 JSON。**
+
+### 一年限制
+
+QQ空间对外部查看者有**一年时间限制**：非好友只能看到最近一年的说说。主页显示的说说总数（如 266）是全部说说数，但 API 实际只返回最近一年的数据（如 ~130 条）。
+
+导出器会在 API 返回空 msglist 时自动停止，并打印警告：
+```
+not get correct shuoshuo, get: 134, should get: 266
+```
+
+这是正常行为，不影响已有数据的完整性。
+
+### 图片下载
+
+图片需要在导出时通过 `--download` 参数一起下载。如果先运行 `--shuoshuo` 再单独运行 `--download`，需要确保两次使用相同的 cookie。
+
 ## 构建命令
 
 ```powershell
@@ -99,5 +123,5 @@ npx vitepress build
 
 - QzoneExporter cookie 位于 `exporter.py` 第 903 行，过期后需更新
 - JSON 中 `to_download.txt` 的 URL 列与文件名列相同，均经 `purge_file_name()` 编码
-- 已有 137 张图片通过内容哈希验证与 QzoneExporter 完全一致
 - `img_34a50be2.jpeg`（2025-10-11）为已知缺失，QzoneExporter 中也不存在
+- 导出后需手动检查图片是否完整（`incremental_import.py` 会报告 MISSING IMAGE）
