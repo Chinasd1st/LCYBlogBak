@@ -2,7 +2,9 @@
 import { ref, computed } from 'vue'
 
 const props = defineProps({
-  posts: { type: Array, required: true }
+  posts: { type: Array, required: true },
+  limit: { type: Number, default: 0 },
+  showMore: { type: Boolean, default: false }
 })
 
 const expanded = ref(false)
@@ -12,6 +14,9 @@ const sortedPosts = computed(() => {
 })
 
 const visiblePosts = computed(() => {
+  if (props.limit > 0 && !expanded.value) {
+    return sortedPosts.value.slice(0, props.limit)
+  }
   return expanded.value ? sortedPosts.value : sortedPosts.value.slice(0, 30)
 })
 
@@ -100,7 +105,10 @@ const groupedPosts = computed(() => {
         </div>
       </div>
 
-      <div v-if="!expanded && totalCount > 30" class="tl-more" @click="expanded = true">
+      <div v-if="showMore" class="tl-more">
+        <a href="/LCYBlogBak/timeline">查看更多 →</a>
+      </div>
+      <div v-else-if="!expanded && totalCount > 30" class="tl-more" @click="expanded = true">
         展开全部 {{ totalCount }} 条
       </div>
     </div>

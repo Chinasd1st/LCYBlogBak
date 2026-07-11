@@ -5,20 +5,17 @@ layout: home
 hero:
   name: "李晨煜"
   text: "QQ空间说说备份"
-  tagline: 2025.04 — 2026.06 完整存档 · 共 150 条说说
+  tagline: 2025.04 — 2026.06 完整存档 · 共 153 条说说
   image:
-    src: /avatar.jpeg   # 可替换成你的头像图片（放在 public/ 下）
+    src: /avatar.jpeg
     alt: 李晨煜头像
   actions:
     - theme: brand
       text: 浏览全部说说
-      link: intro.md  # 指向最新月份（可自行修改）
-    # - theme: alt
-    #   text: 查看备份说明
-    #   link: /about-backup
+      link: intro.md
     - theme: alt
       text: GitHub 仓库
-      link: https://github.com/chinasd1st/lcyblogbak   # 可替换成你的仓库地址
+      link: https://github.com/chinasd1st/lcyblogbak
 
 features:
   - title: 完整备份
