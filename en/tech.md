@@ -139,3 +139,41 @@ VitePress build considerations:
 - **Rollup parsing**: Special characters in filenames (`*`, `?`, `<`) cause build failures, so `get_safe_name` must generate safe filenames
 - **Duplicate detection**: Dedup via content MD5 hash to avoid multiple filenames for the same image
 - **Incremental build**: VitePress has built-in caching, only rebuilds changed files
+
+## 8. Qzone Emoji Conversion
+
+Qzone posts contain proprietary `[em]eXXXXXXX[/em]` format emojis that need to be converted to Unicode emoji.
+
+### Data Source
+
+Uses the `emoji.db` database from [QzEmoji](https://github.com/aioqzone/QzEmoji) project (617 emoji mappings).
+
+### Conversion Script
+
+```python
+import sqlite3
+import re
+
+# Load emoji mapping
+conn = sqlite3.connect('data/emoji.db')
+c = conn.cursor()
+c.execute('SELECT eid, text FROM emoji')
+emoji_map = {row[0]: row[1] for row in c.fetchall()}
+conn.close()
+
+# Regex pattern for [em]eXXXXXXX[/em]
+pattern = re.compile(r'\[em\]e(\d+)\[/em\]')
+
+def replace_emoji(match):
+    eid = int(match.group(1))
+    return emoji_map.get(eid, match.group(0))  # Keep original if not found
+
+# Batch replacement
+new_content = pattern.sub(replace_emoji, content)
+```
+
+### Known Limitations
+
+- Database only covers 617 common emojis; some newer emoji IDs (e.g., `e400862`, `e400833`) are not included
+- Unmatched `[em]` tags are preserved as-is, displayed as text
+- Can re-run replacement via `replace_emoji.py` script

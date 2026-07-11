@@ -14,7 +14,8 @@ function close() {
 }
 
 function handleClick(e) {
-  const img = e.target.closest('.vp-doc img')
+  if (active.value) return
+  const img = e.target.closest('.vp-doc img, .tl-thumb img')
   if (img && img.src) {
     open(img.src)
   }

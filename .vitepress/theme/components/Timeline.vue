@@ -6,7 +6,6 @@ const props = defineProps({
 })
 
 const expanded = ref(false)
-const activeImage = ref(null)
 
 const sortedPosts = computed(() => {
   return [...props.posts].sort((a, b) => b.ts - a.ts)
@@ -57,16 +56,6 @@ const groupedPosts = computed(() => {
   }
   return groups
 })
-
-function openImage(src) {
-  activeImage.value = src
-  document.body.style.overflow = 'hidden'
-}
-
-function closeImage() {
-  activeImage.value = null
-  document.body.style.overflow = ''
-}
 </script>
 
 <template>
@@ -86,6 +75,7 @@ function closeImage() {
           <div class="tl-card">
             <div class="tl-card-meta">
               <span class="tl-weekday">{{ getDayOfWeek(post.ts) }}</span>
+              <span class="tl-date">{{ formatDate(post.ts) }}</span>
               <span v-if="post.source" class="tl-source">{{ post.source }}</span>
             </div>
 
@@ -96,7 +86,6 @@ function closeImage() {
                 v-for="(img, i) in post.images"
                 :key="i"
                 class="tl-thumb"
-                @click="openImage('/LCYBlogBak/downloaded/' + img)"
               >
                 <img
                   :src="'/LCYBlogBak/downloaded/' + img"
@@ -115,13 +104,6 @@ function closeImage() {
         展开全部 {{ totalCount }} 条
       </div>
     </div>
-
-    <Teleport to="body">
-      <div v-if="activeImage" class="tl-overlay" @click="closeImage">
-        <img :src="activeImage" @click.stop />
-        <button class="tl-overlay-close" @click="closeImage">&times;</button>
-      </div>
-    </Teleport>
   </div>
 </template>
 
@@ -225,6 +207,11 @@ function closeImage() {
   border-radius: 3px;
 }
 
+.tl-date {
+  font-size: 0.75rem;
+  color: var(--vp-c-text-2);
+}
+
 .tl-source {
   font-size: 0.65rem;
   color: var(--vp-c-text-3);
@@ -289,47 +276,6 @@ function closeImage() {
   color: var(--vp-c-brand-1);
   border-color: var(--vp-c-brand-1);
   background: var(--vp-c-brand-soft);
-}
-
-.tl-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background: rgba(0, 0, 0, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  cursor: pointer;
-  backdrop-filter: blur(8px);
-}
-
-.tl-overlay img {
-  max-width: 90vw;
-  max-height: 85vh;
-  border-radius: 6px;
-  object-fit: contain;
-}
-
-.tl-overlay-close {
-  position: fixed;
-  top: 1.5rem;
-  right: 1.5rem;
-  width: 36px;
-  height: 36px;
-  border: none;
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-  font-size: 1.5rem;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.tl-overlay-close:hover {
-  background: rgba(255, 255, 255, 0.2);
 }
 
 :deep(.tl-card-body em) {

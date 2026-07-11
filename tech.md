@@ -139,3 +139,41 @@ VitePress 构建时的注意事项：
 - **Rollup 解析**：文件名中的特殊字符（`*`、`?`、`<`）会导致构建失败，所以必须用 `get_safe_name` 生成安全文件名
 - **重复图片检测**：通过内容 MD5 哈希去重，避免同一张图片占用多个文件名
 - **增量构建**：VitePress 内置缓存，只重建变更的文件
+
+## 8. Qzone Emoji 转换
+
+QQ空间说说中包含专有的 `[em]eXXXXXXX[/em]` 格式表情，需要转换为 Unicode emoji。
+
+### 数据来源
+
+使用 [QzEmoji](https://github.com/aioqzone/QzEmoji) 项目的 `emoji.db` 数据库（617 个表情映射）。
+
+### 转换脚本
+
+```python
+import sqlite3
+import re
+
+# 加载表情映射
+conn = sqlite3.connect('data/emoji.db')
+c = conn.cursor()
+c.execute('SELECT eid, text FROM emoji')
+emoji_map = {row[0]: row[1] for row in c.fetchall()}
+conn.close()
+
+# 正则匹配 [em]eXXXXXXX[/em]
+pattern = re.compile(r'\[em\]e(\d+)\[/em\]')
+
+def replace_emoji(match):
+    eid = int(match.group(1))
+    return emoji_map.get(eid, match.group(0))  # 未找到则保留原标签
+
+# 批量替换
+new_content = pattern.sub(replace_emoji, content)
+```
+
+### 已知限制
+
+- 数据库仅覆盖 617 个常用表情，部分较新的表情 ID（如 `e400862`、`e400833`）不在其中
+- 未匹配的 `[em]` 标签会保留原样，显示为文本
+- 可通过 `replace_emoji.py` 脚本重新运行替换
