@@ -50,6 +50,7 @@ export default defineConfig({
         nav: [
           { text: "首页", link: "/" },
           { text: "项目介绍", link: "/intro" },
+          { text: "时间线", link: "/timeline" },
           { text: "技术细节", link: "/tech" },
         ],
         sidebar: zhSidebar,
