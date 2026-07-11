@@ -58,6 +58,9 @@ for md_file in sorted(LCYBLOG_DIR.rglob("*.md")):
     # Extract images
     images = re.findall(r'/downloaded/(img_[a-f0-9]+\.jpeg)', content)
 
+    rel_path = str(md_file.relative_to(LCYBLOG_DIR)).replace("\\", "/")
+    link = "/" + rel_path.replace(".md", ".html")
+
     output.append({
         "tid": tid[:12],
         "ts": ts,
@@ -65,7 +68,7 @@ for md_file in sorted(LCYBLOG_DIR.rglob("*.md")):
         "source": source,
         "images": images,
         "hasImages": len(images) > 0,
-        "file": str(md_file.relative_to(LCYBLOG_DIR))
+        "link": link
     })
 
 output.sort(key=lambda x: x["ts"])

@@ -105,6 +105,8 @@ function closeImage() {
                 />
               </div>
             </div>
+
+            <a v-if="post.link" :href="'/LCYBlogBak' + post.link" class="tl-link">查看原文 →</a>
           </div>
         </div>
       </div>
@@ -332,5 +334,19 @@ function closeImage() {
 
 :deep(.tl-card-body em) {
   color: var(--vp-c-text-3);
+}
+
+.tl-link {
+  display: inline-block;
+  margin-top: 0.4rem;
+  font-size: 0.75rem;
+  color: var(--vp-c-brand-1);
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity 0.15s;
+}
+
+.tl-link:hover {
+  opacity: 1;
 }
 </style>
