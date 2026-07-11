@@ -125,3 +125,51 @@ npx vitepress build
 - JSON 中 `to_download.txt` 的 URL 列与文件名列相同，均经 `purge_file_name()` 编码
 - `img_34a50be2.jpeg`（2025-10-11）为已知缺失，QzoneExporter 中也不存在
 - 导出后需手动检查图片是否完整（`incremental_import.py` 会报告 MISSING IMAGE）
+
+## 更新说说时的必须步骤
+
+每次导入新说说后，必须执行以下两个步骤：
+
+### 1. Emoji 转换
+
+QQ空间说说中的 `[em]eXXXXXXX[/em]` 标签需转换为 Unicode emoji：
+
+```powershell
+python replace_emoji.py
+```
+
+- 数据库：`data/emoji.db`（来自 [QzEmoji](https://github.com/aioqzone/QzEmoji)，617 个表情）
+- 脚本会遍历所有 `.md` 文件，将 `[em]eXXXXXXX[/em]` 替换为对应 emoji
+- 未匹配的标签保留原样
+
+### 2. Timeline 导出
+
+更新 `public/timeline.json` 供首页和时间线页面使用：
+
+```powershell
+python generate_timeline.py
+```
+
+- 扫描所有 `YYYY/MM/*.md` 文件
+- 提取时间、内容、图片、设备信息
+- 输出 `public/timeline.json`
+
+### 完整更新流程
+
+```powershell
+# 1. 导出新说说
+cd C:\Users\omen\Desktop\Documents\Projects\QzoneExporter
+python exporter.py --shuoshuo --download
+
+# 2. 增量导入
+python incremental_import.py
+
+# 3. Emoji 转换
+python replace_emoji.py
+
+# 4. Timeline 导出
+python generate_timeline.py
+
+# 5. 构建验证
+npx vitepress build
+```
