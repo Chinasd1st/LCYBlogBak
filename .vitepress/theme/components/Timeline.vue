@@ -233,6 +233,7 @@ const groupedPosts = computed(() => {
   word-break: break-word;
   text-wrap: pretty;
   overflow-wrap: break-word;
+  white-space: pre-line;
 }
 
 .tl-gallery {
