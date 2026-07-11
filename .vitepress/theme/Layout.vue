@@ -37,7 +37,7 @@ onMounted(async () => {
 <style>
 .home-timeline {
   max-width: 1152px;
-  margin: 0 auto;
+  margin: 3rem auto 0;
   padding: 0 24px;
 }
 </style>
