@@ -8,6 +8,7 @@ VitePress 个人博客，自动备份 QQ空间说说（来自用户 李晨煜，
 
 | 路径 | 说明 |
 |---|---
+
 |  
 | `YYYY/MM/*.md` | 说说 Markdown，文件名格式 `YYYY-MM-DD_HH-MM-SS_{TID前12位}.md` |  
 | `public/downloaded/` | 图片/视频，命名格式 `img_{MD5前8位}.jpeg` |  
@@ -157,14 +158,14 @@ python generate_timeline.py
 
 ### 3. 换行修复
 
-Markdown 中换行需要每行末尾加两个空格，否则渲染时会合并为一行：
+Markdown 中换行需要每行末尾加两个空格，否则渲染时会合并为一行：  
 
-```powershell
-python fix_linebreaks.py
-```
+```powershell  
+python fix_linebreaks.py  
+```  
 
-- 遍历所有 `.md` 文件
-- 在正文每行末尾添加两个空格
+- 遍历所有 `.md` 文件  
+- 在正文每行末尾添加两个空格  
 - 已有空格的行不会重复添加  
 
 ### 完整更新流程
@@ -184,7 +185,7 @@ python replace_emoji.py
 python generate_timeline.py  
 
 # 5. 换行修复
-python fix_linebreaks.py
+python fix_linebreaks.py  
 
 # 6. 构建验证
 npx vitepress build  
