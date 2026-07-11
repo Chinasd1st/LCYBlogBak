@@ -155,6 +155,18 @@ python generate_timeline.py
 - 提取时间、内容、图片、设备信息  
 - 输出 `public/timeline.json`  
 
+### 3. 换行修复
+
+Markdown 中换行需要每行末尾加两个空格，否则渲染时会合并为一行：
+
+```powershell
+python fix_linebreaks.py
+```
+
+- 遍历所有 `.md` 文件
+- 在正文每行末尾添加两个空格
+- 已有空格的行不会重复添加  
+
 ### 完整更新流程
 
 ```powershell  
@@ -171,6 +183,9 @@ python replace_emoji.py
 # 4. Timeline 导出
 python generate_timeline.py  
 
-# 5. 构建验证
+# 5. 换行修复
+python fix_linebreaks.py
+
+# 6. 构建验证
 npx vitepress build  
 ```  
