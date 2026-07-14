@@ -39,7 +39,7 @@ function pad(n) {
 
 <template>
   <div class="deploy-time" v-if="buildTime">
-    上次部署至今 <span class="dt-num">{{ elapsed.days }}</span> 天
+    上次同步至今 <span class="dt-num">{{ elapsed.days }}</span> 天
     <span class="dt-num">{{ pad(elapsed.hours) }}</span> :
     <span class="dt-num">{{ pad(elapsed.minutes) }}</span> :
     <span class="dt-num">{{ pad(elapsed.seconds) }}</span>
