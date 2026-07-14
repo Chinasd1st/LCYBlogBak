@@ -4,6 +4,7 @@ import DefaultTheme from 'vitepress/theme'
 import { useRoute } from 'vitepress'
 import Lightbox from './components/Lightbox.vue'
 import Timeline from './components/Timeline.vue'
+import DeployTime from './components/DeployTime.vue'
 
 const { Layout: DefaultLayout } = DefaultTheme
 const route = useRoute()
@@ -27,6 +28,7 @@ onMounted(async () => {
       <Lightbox />
     </template>
     <template #home-features-after>
+      <DeployTime />
       <div class="home-timeline">
         <Timeline :posts="posts" :limit="10" :show-more="true" />
       </div>

@@ -39,6 +39,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Write deploy time
+        run: echo "{\"time\":$(date +%s000)}" > public/deploy-time.json
+
       - name: Build VitePress
         run: pnpm run build
         env:
