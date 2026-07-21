@@ -5,7 +5,7 @@ layout: home
 hero:
   name: "李晨煜"
   text: "QQ空间说说备份"
-  tagline: 2025.04 — 2026.07 完整存档 · 共 171 条说说
+  tagline: 2025.04 — 2026.07 完整存档 · 共 175 条说说
   image:
     src: /avatar.jpeg
     alt: 李晨煜头像
